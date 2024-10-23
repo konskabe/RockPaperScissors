@@ -1,3 +1,8 @@
+const rockButton = document.querySelector(".rockButton");
+const paperButton = document.querySelector(".paperButton");
+const scissorsButton = document.querySelector(".scissorsButton");
+
+
 function getComputerChoice() {
     let rng = Math.floor(Math.random()*3);
     if (rng === 0){
@@ -7,84 +12,100 @@ function getComputerChoice() {
     }else{
         pick = "Scissors"
     }
-    document.getElementById("computerPick").innerHTML="I picked " + pick;
+    document.getElementById("computerPick").innerHTML="Computer picked " + pick;
     return pick;
 }
 
-// console.log(getComputerChoice());
-
-// function getHumanChoice(){
-//     let choice = prompt("your move");
-//     choice = choice.charAt(0).toUpperCase() + choice.slice(1).toLowerCase();
-//     return choice;
-// }
-// console.log(getHumanChoice());
-let humanScore = 0;
+let playerScore = 0;
 let computerScore = 0;
 
-function playRound(humanChoice){
+function playRound(playerChoice){
     let computerChoice = getComputerChoice();
+    setImage(computerImage,getImgSrc(computerChoice),computerChoice+" Image");
+    setImage(playerImage,getImgSrc(playerChoice), playerChoice +"Image");
     let result = document.getElementById("result");
     if (computerChoice === "Rock"){
-        if(humanChoice === "Paper"){
+        if(playerChoice === "Paper"){
             result.innerHTML = "You win!";
-            humanScore++;
-        }else if(humanChoice === "Scissors"){
+            playerScore++;
+        }else if(playerChoice === "Scissors"){
             result.innerHTML = "You lose!";
             computerScore++;
         }else result.innerHTML = "Draw";
     }else if(computerChoice === "Paper"){
-        if(humanChoice === "Rock"){
+        if(playerChoice === "Rock"){
             result.innerHTML = "You lose!";
             computerScore++;
-        }else if (humanChoice === "Scissors"){
+        }else if (playerChoice === "Scissors"){
             result.innerHTML = "You win!";
-            humanScore++;
+            playerScore++;
         }else result.innerHTML = "Draw";
     }else{//computerChoice === Scissors//
-        if (humanChoice === "Rock"){
+        if (playerChoice === "Rock"){
             result.innerHTML = "You win!";
-            humanScore++;
-        }else if (humanChoice === "Paper"){
+            playerScore++;
+        }else if (playerChoice === "Paper"){
             result.innerHTML = "You lose!";
             computerScore++;
         }else result.innerHTML = "Draw";
     };
     document.getElementById("computerScore").innerHTML = "Computer - " +computerScore;
-    document.getElementById("humanScore").innerHTML = "Human - " +humanScore;
+    document.getElementById("playerScore").innerHTML = "Player - " +playerScore;
     if (computerScore === 5){
-        if(alert("You lost! " +computerScore + " to " +humanScore)){}
+        if(alert("You lost! " +computerScore + " to " +playerScore)){}
         else window.location.reload();
     }
-    if (humanScore === 5){
-        if(alert("You won! " +humanScore + " to " +computerScore)){}
+    if (playerScore === 5){
+        if(alert("You won! " +playerScore + " to " +computerScore)){}
         else window.location.reload();
     }
 }
 
-// function playgame(){
-//     console.log("the final score is: Human-",humanScore," Computer-",computerScore);
-//     if (humanScore>computerScore){
-//         console.log("The winner is the Human");
-//     }else if (humanScore<computerScore){
-//         console.log("The winner is the Computer");
-//     }else console.log("It's a Draw")
-// }
-
-const rockButton = document.querySelector(".rockButton");
-const paperButton = document.querySelector(".paperButton");
-const scissorsButton = document.querySelector(".scissorsButton");
 
 rockButton.addEventListener("click", ()=> {
-    let humanChoice = "Rock";
-    playRound(humanChoice);
+    let playerChoice = "Rock";
+    setImage(playerImage,getImgSrc("rock"),"Rock Image");
+    playRound(playerChoice);
 });
 paperButton.addEventListener("click", function (){
-    let humanChoice = "Paper";
-    playRound(humanChoice);
+    let playerChoice = "Paper";
+    
+    playRound(playerChoice);
 });
 scissorsButton.addEventListener("click", function (){
-    let humanChoice = "Scissors";
-    playRound(humanChoice);
+    let playerChoice = "Scissors";
+    setImage(playerImage,getImgSrc("scissors"),"Scissors Image");
+    playRound(playerChoice);
 });
 
+
+const playerImage = document.getElementById("playerImage");
+const computerImage = document.getElementById("computerImage");
+
+function setImage(imageContainer,choice,altText){
+   let existingImage = imageContainer.querySelector('img');
+
+   if (existingImage){
+    existingImage.src = choice;
+    existingImage.alt = altText;
+   }else{
+    const newImage = document.createElement("img");
+    newImage.src = choice;
+    newImage.alt = altText;
+    newImage.style.width = "150px";
+    newImage.style.height = "150px"
+    
+    imageContainer.appendChild(newImage);
+   }
+}
+
+function getImgSrc(choice){
+    return ("./Images/"+choice.toLowerCase()+".png")
+}
+
+// const rockImage = document.createElement("img");
+//     rockImage.src = "./Images/rock.png";
+//     rockImage.alt = "Rock image";
+//     rockImage.style.width = "150px";
+//     rockImage.style.height = "150px";
+//     playerImage.appendChild(rockImage);
