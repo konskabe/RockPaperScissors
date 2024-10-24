@@ -18,7 +18,7 @@
         <!-- </div> -->
         <!-- <p id = "computerPick">Computer is picking</p> -->
         <div class="result">
-            <p id ="result">Result:</p>
+            <p id ="result">First to 5 wins!</p>
             <p id="playerScore">Player - 0</p>
             <p id="computerScore"> Computer - 0</p>
         
@@ -33,6 +33,22 @@
         <button class="rockButton">Rock</button>
         <button class="paperButton">Paper</button>
         <button class="scissorsButton">Scissors</button>
+    </div>
+    <footer class="footer">
+        <p>
+            Copyright ©
+            <script>
+                document.write(new Date().getFullYear())
+            </script>
+            Konstantinos Kamperis
+        </p>
+    </footer>
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="gameOverMessage">Game Over</p>
+            <button id="restartButton">Restart Game</button>
+        </div>
     </div>
 
 

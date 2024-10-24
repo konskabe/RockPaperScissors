@@ -20,6 +20,7 @@ let playerScore = 0;
 let computerScore = 0;
 
 function playRound(playerChoice){
+    document.getElementById("playerPick").innerHTML ="Player picked " +playerChoice;
     let computerChoice = getComputerChoice();
     setImage(computerImage,getImgSrc(computerChoice),computerChoice+" Image");
     setImage(playerImage,getImgSrc(playerChoice), playerChoice +"Image");
@@ -51,20 +52,17 @@ function playRound(playerChoice){
     };
     document.getElementById("computerScore").innerHTML = "Computer - " +computerScore;
     document.getElementById("playerScore").innerHTML = "Player - " +playerScore;
-    if (computerScore === 5){
-        if(alert("You lost! " +computerScore + " to " +playerScore)){}
-        else window.location.reload();
+    if (computerScore === 5) {
+        showModal("You lost! " + computerScore + " to " + playerScore);
     }
-    if (playerScore === 5){
-        if(alert("You won! " +playerScore + " to " +computerScore)){}
-        else window.location.reload();
+    if (playerScore === 5) {
+        showModal("You won! " + playerScore + " to " + computerScore);
     }
 }
 
 
 rockButton.addEventListener("click", ()=> {
     let playerChoice = "Rock";
-    setImage(playerImage,getImgSrc("rock"),"Rock Image");
     playRound(playerChoice);
 });
 paperButton.addEventListener("click", function (){
@@ -74,7 +72,6 @@ paperButton.addEventListener("click", function (){
 });
 scissorsButton.addEventListener("click", function (){
     let playerChoice = "Scissors";
-    setImage(playerImage,getImgSrc("scissors"),"Scissors Image");
     playRound(playerChoice);
 });
 
@@ -103,9 +100,36 @@ function getImgSrc(choice){
     return ("./Images/"+choice.toLowerCase()+".png")
 }
 
-// const rockImage = document.createElement("img");
-//     rockImage.src = "./Images/rock.png";
-//     rockImage.alt = "Rock image";
-//     rockImage.style.width = "150px";
-//     rockImage.style.height = "150px";
-//     playerImage.appendChild(rockImage);
+const modal = document.getElementById("gameOverModal");
+const closeModalButton = document.getElementsByClassName("close")[0];
+const gameOverMessage = document.getElementById("gameOverMessage");
+const restartButton =document.getElementById("restartButton");
+
+function showModal(message){
+    gameOverMessage.textContent = message;
+    modal.style.display = "block";
+}
+function closeModal(){
+    modal.style.display = "none";
+}
+
+let allButtons = document.querySelectorAll(".buttons");
+
+closeModalButton.addEventListener("click", ()=>{
+    closeModal();
+
+    rockButton.replaceWith(rockButton.cloneNode(true));
+    paperButton.replaceWith(paperButton.cloneNode(true));
+    scissorsButton.replaceWith(scissorsButton.cloneNode(true));
+
+    allButtons.forEach(function (button) {
+        button.addEventListener("click", ()=>{
+            showModal("Press the button to restart");
+    });
+});
+
+});
+
+restartButton.addEventListener("click", ()=>{
+    window.location.reload();
+})
